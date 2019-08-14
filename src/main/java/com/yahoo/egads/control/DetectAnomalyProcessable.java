@@ -15,11 +15,16 @@ import com.yahoo.egads.data.TimeSeries;
 import com.yahoo.egads.utilities.GUIUtils;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DetectAnomalyProcessable implements ProcessableObject {
     private ModelAdapter ma;
     private AnomalyDetector ad;
     private Properties config;
     private ArrayList<Anomaly> anomalyList;
+    
+    private static Logger LOGGER = LoggerFactory.getLogger(DetectAnomalyProcessable.class);
 
     public ArrayList<Anomaly> getAnomalyList() {
         return anomalyList;
@@ -65,11 +70,11 @@ public class DetectAnomalyProcessable implements ProcessableObject {
                 GUIUtils.plotResults(ma.metric.data, ds, anomalyList, config);
             } else if (config.getProperty("OUTPUT") != null && config.getProperty("OUTPUT").equals("PLOT")) {
                 for (Anomaly anomaly : anomalyList) {
-                    System.out.print(anomaly.toPlotString());
+                    LOGGER.info(anomaly.toPlotString());
                 }
             } else {
                 for (Anomaly anomaly : anomalyList) {
-                    System.out.print(anomaly.toPerlString());
+                	LOGGER.info(anomaly.toPerlString());
                 }
             }
         }

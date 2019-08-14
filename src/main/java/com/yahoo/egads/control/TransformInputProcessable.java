@@ -6,17 +6,20 @@
 
 package com.yahoo.egads.control;
 
-import java.util.ArrayList;
-
-import com.yahoo.egads.data.TimeSeries;
-
 import java.util.List;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.yahoo.egads.data.TimeSeries;
 
 public class TransformInputProcessable implements ProcessableObject {
     private ModelAdapter ma;
     private Properties config;
     private List<TimeSeries.DataSequence> forecastDatapointList;
+    
+    private Logger LOGGER = LoggerFactory.getLogger(TransformInputProcessable.class);
 
     public List<TimeSeries.DataSequence> getForecastDatapointList() {
         return forecastDatapointList;
@@ -45,7 +48,7 @@ public class TransformInputProcessable implements ProcessableObject {
         for (TimeSeries.DataSequence ds : forecastDatapointList) {
             int j = 0;
             for (TimeSeries.Entry e : ds) {
-                System.out.println(e.time + "," + ma.metric.meta.name + "," + ma.metric.meta.fileName + ","
+                LOGGER.info(e.time + "," + ma.metric.meta.name + "," + ma.metric.meta.fileName + ","
                                    + modelNames[i] + "," + e.value + "," + ma.metric.data.get(j).value + ",0");
                 j++;
             }
